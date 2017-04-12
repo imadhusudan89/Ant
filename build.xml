@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<project name="sampleApp" basedir="." default="init">
+
+	<target name="init">
+		<property name="name" value="sampleApp"/>
+		<property file="properties\build.properties"/>
+		<property name="src.dir" value="src\java"/>
+		<property name="build.dir" value="build"/>
+		<property name="web.dir" value="${basedir}\src\Webcontent"/>
+	</target>
+
+	<target name="prepare" depends="init">
+		<echo message="________________value from property: ${build123}" />
+	    <path id="class-path">
+		   <fileset dir="${web.dir}\WEB-INF\lib">
+			  <include name="*.jar" />
+		   </fileset>
+		   <pathelement path="${build.dir}" />
+		</path>
+		<mkdir dir="${build.dir}\sampleApp" />
+		<mkdir dir="${build.dir}\sampleApp\WEB-INF" />
+		<mkdir dir="${build.dir}\sampleApp\WEB-INF\classes" />
+	</target>
+	
+	<target name="clean" depends="init">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>
+	</target>
+		
+	<target name="compile" description="Compile source java" depends="prepare" >
+		<javac destdir="${build.dir}\sampleApp\WEB-INF\classes" source="1.7" target="1.7"
+			deprecation="false" optimize="false" failonerror="true">
+			<src path="${src.dir}" />
+			<classpath refid="class-path" />
+		</javac>
+	</target>
+
+	<target name="createWar" depends="init" description="Creating a WAR File">
+		<antcall target="compile" />
+		<copy file="${web.dir}\web.xml" tofile="${build.dir}\sampleApp\web.xml" />
+		<copy todir="${build.dir}\sampleApp\WEB-INF"> 
+			<fileset dir = "${web.dir}\WEB-INF">
+				<include name = "html/*.*"/>
+				<include name = "images/*.*"/>
+				<include name = "js/*.*"/>
+				<include name = "jsp/*.*"/>
+				<include name = "lib/javax.servlet-api-3.1.0.jar"/>
+			</fileset>
+		</copy>
+		<war destfile="${build.dir}\sampleApp.war" webxml="${build.dir}\sampleApp\web.xml">
+			<fileset dir="${build.dir}\sampleApp">
+				<include name="**/*.*" />
+			</fileset>
+		</war>
+	</target>
+	
+	<target name="createJar" depends="prepare">
+		<antcall target="compile" />
+		<jar destfile="${build.dir}\sampleApp.jar"
+		    basedir="${build.dir}" includes="${build.dir}\sampleApp\WEB-INF\classes\**" >
+			<fileset dir="${build.dir}\sampleApp\WEB-INF\classes">
+				<include name="**/*.*" />
+			</fileset>
+		</jar>
+	</target>
+</project>
