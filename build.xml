@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name="sampleAppant" basedir="." default="init">
+<project name="sampleApp" basedir="." default="init">
 
 	<target name="init">
-		<property name="name" value="sampleApp"/>
+		<property name="name" value="sampleApp_Ant"/>
 		<property file="properties\build.properties"/>
 		<property name="src.dir" value="src\java"/>
 		<property name="build.dir" value="build"/>
@@ -48,7 +48,7 @@
 				<include name = "lib/javax.servlet-api-3.1.0.jar"/>
 			</fileset>
 		</copy>
-		<war destfile="${build.dir}\sampleApp.war" webxml="${build.dir}\sampleApp\web.xml">
+		<war destfile="${build.dir}\sampleApp_Ant.war" webxml="${build.dir}\sampleApp\web.xml">
 			<fileset dir="${build.dir}\sampleApp">
 				<include name="**/*.*" />
 			</fileset>
