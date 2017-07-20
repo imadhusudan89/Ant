@@ -18,6 +18,7 @@
 		   <pathelement path="${build.dir}" />
 		</path>
 		<mkdir dir="${build.dir}\sampleApp_Ant" />
+		<mkdir dir="${build.dir}\sampleApp_Ant" />
 		<mkdir dir="${build.dir}\sampleApp_Ant\WEB-INF" />
 		<mkdir dir="${build.dir}\sampleApp_Ant\WEB-INF\classes" />
 	</target>
